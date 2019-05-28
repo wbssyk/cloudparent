@@ -1,0 +1,14 @@
+server:
+  port: 8762
+spring:
+  application:
+    name: service-hi
+eureka:
+  client:
+    service-url:
+      defaultZone: http://shiyakun:123456@peer1:8760/eureka/,http://shiyakun:123456@peer2:8761/eureka/
+  instance:
+    #每间隔10s，向服务端发送一次心跳，证明自己依然”存活“
+    lease-renewal-interval-in-seconds: 20
+    #告诉服务端，如果我20s之内没有给你发心跳，就代表我“死”了，将我踢出掉。
+    lease-expiration-duration-in-seconds: 60

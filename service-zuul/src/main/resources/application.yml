@@ -1,0 +1,67 @@
+server:
+  servlet:
+    context-path: /gateway/
+spring:
+  application:
+    name: service-zuul
+#注册中心发现服务
+eureka:
+  client:
+    service-url:
+      defaultZone: http://shiyakun:123456@peer1:8760/eureka/,http://shiyakun:123456@peer2:8761/eureka/
+  instance:
+    lease-expiration-duration-in-seconds: 60
+    lease-renewal-interval-in-seconds: 20
+# oauth2配置
+security:
+  oauth2:
+#    authorization:
+#      check-token-access: http://localhost:8801/oauth/check_token
+    client:
+#      id: 1
+#      client-secret: 2
+      access-token-uri: http://localhost:8801/login/token #令牌端点
+      user-authorization-uri: http://localhost:8801/oauth/authorize #授权端点
+    resource:
+      user-info-uri: http://localhost:8801/user/me #当前登录信息
+      id: oa
+#网关配置
+zuul:
+  host:
+    connect-timeout-millis: 10000 #用指定 url 进行路由
+    socket-timeout-millis: 60000
+  routes:
+    api-a:
+      path: /serviceoauth/**
+      serviceId: service-oauth
+      strip-prefix: true
+      custom-sensitive-headers: true #必须开启不然的话 代理后会出现请求的head头中的信息找不到
+    api-b:
+      path: /servicehi/**
+      serviceId: service-hi
+      strip-prefix: true
+      custom-sensitive-headers: true #必须开启不然的话 代理后会出现 请求head头找不到
+
+
+#service-hi: #根据不同的服务实例 来设置超时时间
+#  ribbon:
+#    ConnectTimeout: 10000
+#    ReadTimeout: 60000
+#
+#service-oauth:
+#  ribbon:
+#    ConnectTimeout: 10000
+#    ReadTimeout: 60000
+
+
+---
+server:
+  port: 8768
+spring:
+  profiles: zuul1
+
+---
+server:
+  port: 8769
+spring:
+  application: zuul2

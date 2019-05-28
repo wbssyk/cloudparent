@@ -1,0 +1,31 @@
+server:
+  port: 8765
+spring:
+  application:
+    name: service-feign
+eureka:
+  client:
+    service-url:
+      defaultZone: http://shiyakun:123456@peer1:8760/eureka/,http://shiyakun:123456@peer2:8761/eureka/
+feign:
+  hystrix:
+    enabled: true
+
+#请求处理的超时时间
+ribbon:
+  OkToRetryOnAllOperations: false #对所有操作请求都进行重试,默认false
+  ReadTimeout: 10000   #负载均衡超时时间，默认值5000
+  ConnectTimeout: 3000 #ribbon请求连接的超时时间，默认值2000  和下面的timeoutInMilliseconds共同控制，谁的值小谁起作用（前提是enabled为true）
+  MaxAutoRetries: 0     #对当前实例的重试次数，默认0
+  MaxAutoRetriesNextServer: 1 #对切换实例的重试次数，默认1
+
+hystrix:
+  command:
+    default: #default全局有效，service id指定应用有效
+      execution:
+        timeout:
+        #如果enabled设置为false，则请求超时交给ribbon控制
+          enabled: true
+        isolation:
+          thread:
+            timeoutInMilliseconds: 20000

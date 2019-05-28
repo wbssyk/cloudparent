@@ -1,0 +1,35 @@
+
+spring:
+  application:
+    name: eureka-server
+  security:
+    user:
+      password: 123456
+      name: shiyakun
+
+---
+spring:
+  profiles: discovery1
+server:
+  port: 8760
+eureka:
+  instance:
+    hostname: peer1
+    prefer-ip-address: false
+  client:
+    service-url:
+      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@peer2:8761/eureka/
+
+---
+spring:
+  profiles: discovery2
+server:
+  port: 8761
+eureka:
+  instance:
+    hostname: peer2
+    prefer-ip-address: false
+  client:
+    service-url:
+      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@peer1:8760/eureka/
+

@@ -1,0 +1,53 @@
+server:
+  port: 8768
+
+spring:
+  application:
+    name: service-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: false #表明gateway开启服务注册和发现的功能,默认创建一个router
+          lower-case-service-id: true
+      routes:  #添加routes后要把 discovery.locator.enabled改为 false
+      - id: service-hi
+        uri: lb://SERVICE-HI
+        predicates:
+          - Path=/demo/**
+        filters:
+          - StripPrefix=1 #替换掉service-hi
+eureka:
+  client:
+    service-url:
+      defaultZone: http://peer1:8760/eureka/
+
+#security:
+#  oauth2:
+##    authorization:
+##      check-token-access: http://localhost:8801/oauth/check_token
+#    client:
+##      id: 1
+##      client-secret: 2
+#      access-token-uri: http://localhost:8801/login/token #令牌端点
+#      user-authorization-uri: http://localhost:8801/oauth/authorize #授权端点
+#    resource:
+#      user-info-uri: http://localhost:8801/user/me
+#      id: oa
+
+#ribbon:
+#  ReadTimeout: 10000
+#  ConnectTimeout: 10000
+#  MaxAutoRetries: 1
+#  MaxAutoRetriesNextServer: 2
+#  eureka:
+#    enabled: true
+#hystrix:
+#  command:
+#    default:
+#      execution:
+#        timeout:
+#          enabled: true
+#        isolation:
+#          thread:
+#            timeoutInMilliseconds: 600000
