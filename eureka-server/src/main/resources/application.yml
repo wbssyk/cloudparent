@@ -1,35 +1,42 @@
-
 spring:
+  profiles: peer1
   application:
     name: eureka-server
   security:
     user:
-      password: 123456
       name: shiyakun
+      password: 123456
 
----
-spring:
-  profiles: discovery1
-server:
-  port: 8760
 eureka:
   instance:
     hostname: peer1
     prefer-ip-address: false
+    non-secure-port: ${server.port}
   client:
     service-url:
       defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@peer2:8761/eureka/
+server:
+  port: 8760
+#    register-with-eureka: false
 
 ---
 spring:
-  profiles: discovery2
-server:
-  port: 8761
+  profiles: peer2
+  application:
+    name: eureka-server
+  security:
+    user:
+      name: shiyakun
+      password: 123456
 eureka:
   instance:
     hostname: peer2
     prefer-ip-address: false
+    non-secure-port: ${server.port}
   client:
+#    register-with-eureka: false
     service-url:
       defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@peer1:8760/eureka/
+server:
+  port: 8761
 

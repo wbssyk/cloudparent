@@ -1,6 +1,5 @@
 package com.example.demo.auth;
 
-import com.example.demo.auth.config.UserDetail;
 import com.example.demo.domain.entity.User;
 import com.example.demo.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;

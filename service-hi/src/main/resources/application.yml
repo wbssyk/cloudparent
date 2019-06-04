@@ -12,3 +12,17 @@ eureka:
     lease-renewal-interval-in-seconds: 20
     #告诉服务端，如果我20s之内没有给你发心跳，就代表我“死”了，将我踢出掉。
     lease-expiration-duration-in-seconds: 60
+
+# oauth2配置
+security:
+  oauth2:
+#    authorization:
+#      check-token-access: http://localhost:8801/oauth/check_token
+    client:
+#      id: 1
+#      client-secret: 2
+      access-token-uri: http://localhost:8801/login/token #令牌端点
+      user-authorization-uri: http://localhost:8801/oauth/authorize #授权端点
+    resource:
+      user-info-uri: http://localhost:8801/user/me #当前登录信息
+      id: oa

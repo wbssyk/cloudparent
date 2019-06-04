@@ -12,8 +12,8 @@ spring:
       enabled: always
   redis:
     port: 6379
-    host: 10.100.1.145
-#    password: 123456
+    host: localhost
+    password: 123456
   application:
     name: service-oauth
 eureka:

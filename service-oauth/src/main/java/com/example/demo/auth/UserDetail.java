@@ -1,4 +1,4 @@
-package com.example.demo.auth.config;
+package com.example.demo.auth;
 
 import com.example.demo.domain.entity.User;
 import org.springframework.security.core.GrantedAuthority;
@@ -39,9 +39,9 @@ public class UserDetail implements UserDetails {
         //添加权限
         List authorisList = new ArrayList();
 
-        authorisList.add(new SimpleGrantedAuthority("ROLE_GG"));
+//        authorisList.add(new SimpleGrantedAuthority("ROLE_GG"));
 
-//        authorisList.add(new SimpleGrantedAuthority("ROLE_AA"));
+        authorisList.add(new SimpleGrantedAuthority("ROLE_AA"));
 //        authorisList.add(new SimpleGrantedAuthority("ROLE_BB"));
 //        authorisList.add(new SimpleGrantedAuthority("ROLE_CC"));
 //        authorisList.add(new SimpleGrantedAuthority("ROLE_DD"));
